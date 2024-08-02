@@ -15,6 +15,7 @@ if(isset($_POST['login'])){
     
     $check_student = $connection->prepare("SELECT * FROM `students` WHERE reg_no = ? AND password = ?");
     $check_student->execute([$reg_no, $password]);
+    
 
     if($check_student->rowCount() > 0){
         $student_data = $check_student->fetch(PDO::FETCH_ASSOC);
@@ -22,17 +23,15 @@ if(isset($_POST['login'])){
         if($student_data['password'] == $student_data['temp_password']){
             $delete_password = $connection->prepare("UPDATE `students` SET password = '' WHERE unique_id = ?");
             $delete_password->execute([$student_data['unique_id']]);
-            if($delete_password){
-                $message = 'Your Old password is deleted now. Please update password in your dashboard.';
-                header('Location:changePassword.php');
-            }
+            header('Location:changePassword.php');
         }
-        header('Location:studentDashboard.php');
+        else{
+            header('Location:studentDashboard.php');
+        }
     }
     else{
         $message = "Incorrect e-Mail or Password entered";
         }
-
 }
     ?>
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

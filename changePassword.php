@@ -5,6 +5,17 @@ if(isset($_SESSION['Student']) ){
     $select_logged_in_user = $connection->prepare("SELECT * FROM `students` WHERE reg_no = ?");
     $select_logged_in_user->execute([$_SESSION['Student']]);
     $logged_in_data = $select_logged_in_user->fetch(PDO::FETCH_ASSOC);
+    $table = 'students';
+    $access = 'reg_no';
+    $user = $logged_in_data['reg_no'];
+}
+else if(isset($_SESSION['Staff'])){
+    $select_logged_in_user = $connection->prepare("SELECT * FROM `staff_admin` WHERE unique_id = ?");
+    $select_logged_in_user->execute([$_SESSION['Staff']]);
+    $logged_in_data = $select_logged_in_user->fetch(PDO::FETCH_ASSOC);
+    $table = 'staff_admin';
+    $access = 'unique_id';
+    $user = $logged_in_data['unique_id'];
 }
 else{
     header('Location:login.php');
@@ -15,10 +26,16 @@ else{
 if(isset($_POST['update_password'])){
     $password = $_POST['student_password'];
 
-    $update_student = $connection->prepare("UPDATE `students` set password = ? WHERE reg_no = ?");
-    $update_student->execute([$password, $_SESSION['Student']]);
+    $update_student = $connection->prepare("UPDATE `$table` set password = ? WHERE $access = ?");
+    $update_student->execute([$password, $user]);
     if($update_student){
         $message = 'Password updated successfully.';
+        if($_SESSION['Student']){
+            header('Location:index.php');
+        }
+        else{
+            header('Location:staff/index.php');
+        }
     }
 }
 ?>
@@ -88,9 +105,6 @@ if(isset($_POST['update_password'])){
     function onChange() {
   const password = document.querySelector('input[name=student_password]');
   const confirm = document.querySelector('input[name=confirm_password]');
-    if(document.getElementById('student_password').value.length < 8 ){
-        password.setCustomValidity("Password must be 8 characters");
-    }
     
   if (confirm.value === password.value) {
     confirm.setCustomValidity('');

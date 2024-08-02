@@ -22,15 +22,16 @@ if(isset($_POST['login'])){
     if($check_staff->rowCount() > 0){
         $staff_data = $check_staff->fetch(PDO::FETCH_ASSOC);
         $_SESSION['Staff'] = $staff_data['unique_id'];
+
         if($staff_data['password'] == $staff_data['temp_password']){
             $delete_password = $connection->prepare("UPDATE `staff_admin` SET password = '' WHERE unique_id = ?");
             $delete_password->execute([$staff_data['unique_id']]);
-            if($delete_password){
-                $message = 'Your Old password is deleted now. Please update password in your dashboard.';
-                header('Location:changePassword.php');
-            }
+            $message = 'Your Old password is deleted now. Please update password in your dashboard.';
+            header('Location:../changePassword.php');
         }
-        header('Location:staffDashboard.php');
+        else{
+            header('Location:staffDashboard.php');
+        }
     }
     else{
         $message = "Incorrect e-Mail or Password entered";

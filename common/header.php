@@ -8,6 +8,7 @@
         <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
         <script src="assets/css/bootstrap.js"></script>
+        <script src="assets/js/script.js"></script>
 
         <style>
             :root{
