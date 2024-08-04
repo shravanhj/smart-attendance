@@ -145,34 +145,6 @@ if(isset($_POST['capture'])){
     </div>
 </div>
 
-<script>
-    function captureFP(){
-        var uri = "https://localhost:8443/SGIFPCapture";
-        var xmlhttp = new XMLHttpRequest();
-
-        xmlhttp.onreadystatechange = function(){
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
-                fingerpring_object = JSON.parse(xmlhttp.responseText);
-                    var fingerprint_template = fingerpring_object.TemplateBase64;
-                    console.log(fingerprint_template);
-                    document.getElementById('status').innerHTML = "<b>Scan Status</b> : Scanned successfully.";
-                    document.getElementById('fingerprint_template').value = fingerprint_template;
-                    var form =document.getElementById('reg_form');
-                    form.submit();
-                }
-            else if (xmlhttp.status == 404) {
-                console.log('Error page not found');
-                }
-            }
-            xmlhttp.open("POST", uri, true);
-            xmlhttp.send();
-
-            xmlhttp.onerror = function () {
-                console.log("failed");
-            }
-    }
-
-</script>
 <?php
 }
 else{
@@ -186,7 +158,7 @@ if(isset($_POST['capture'])){
     if($fingerprint_template == ''){
         $message = 'Please Scan Fingerprint';
     }
-    else if($email == '' OR $name= '' OR $role == ''){
+    else if($email == '' OR $name == '' OR $role == ''){
         $message = 'Please fill all fields...';
     }
     else{
@@ -213,7 +185,7 @@ if(isset($_POST['capture'])){
                 </p>';
 
 
-                $insert_staff = $connection->prepare("INSERT INTO `staff_admin`(role, name, email, password, temp_password, fingerprint_template) VALUES (?, ?, ?, ?, ?, ?)");
+                $insert_staff = $connection->prepare("INSERT INTO `staff_admin`(role, staff_name, email, password, temp_password, fingerprint_template) VALUES (?, ?, ?, ?, ?, ?)");
                 $insert_staff->execute([$role, $name, $email, $randomString, $randomString, $fingerprint_template]);
                 if($insert_staff){
                     $message = 'Password has been sent to your e-Mail id. Please login and update details.<br><br>

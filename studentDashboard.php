@@ -87,13 +87,13 @@ if(isset($_POST['update'])){
             <div class="row">
                 <div class="col-md mb-3">
                     <label class="form-label text-black mb-1">Full Name</label>
-                    <input type="text" id="fullname" value="<?= $logged_in_data['name'];?>" placeholder="Full Name" class="form-control form-control-sm" name="fullname" required>
+                    <input type="text" id="fullname" value="<?= $logged_in_data['name'];?>" class="form-control form-control-sm" name="fullname" required>
                 </div>
             </div>
 
             <label class="form-label text-black mb-1">Gender</label><br>
             <div class="form-check form-check-inline">
-                <input class="form-check-input " type="radio" name="gender" value="male" id="flexRadioDefault1">
+                <input class="form-check-input " type="radio" name="gender" value="male" id="flexRadioDefault1" required>
                 <label class="form-check-label" for="flexRadioDefault1" >Male</label>
             </div>
 
@@ -112,7 +112,7 @@ if(isset($_POST['update'])){
             <div class="row">
                 <div class="col-md mb-3">
                     <label class="form-label text-black mb-1">Mobile No.</label>
-                    <input type="text" id="fmobile_no" <?= $logged_in_data['mobile_no'];?> placeholder="Mobile No" class="form-control form-control-sm" name="mobile_no" required>
+                    <input type="text" id="fmobile_no" value="<?= $logged_in_data['mobile_no'];?>" class="form-control form-control-sm" name="mobile_no" required>
                 </div>
             </div>
 
@@ -121,10 +121,13 @@ if(isset($_POST['update'])){
                     <p class=" fw-bold p-o m-0 text-black">Academic Details</p>
                     <label>Current Semester</label>
                     <select name="semester" class="form-select form-select-sm p-1 shadow-sm bg-white rounded" required>
-                        <option selected disabled>--Select--</option>
-                        <option value="first">I</option>
-                        <option value="third">III</option>
-                        <option value="fifth">V</option>
+                        <option selected disabled><?= $logged_in_data['current_semester'];?></option>
+                        <option value="1">I</option>
+                        <option value="2">II</option>
+                        <option value="3">III</option>
+                        <option value="4">IV</option>
+                        <option value="5">V</option>
+                        <option value="6">VI</option>
                     </select>
                 </div>
             </div>

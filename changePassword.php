@@ -27,8 +27,7 @@ if(isset($_POST['update_password'])){
     $password = $_POST['student_password'];
 
     $update_student = $connection->prepare("UPDATE `$table` set password = ? WHERE $access = ?");
-    $update_student->execute([$password, $user]);
-    if($update_student){
+    if($update_student->execute([$password, $user])){
         $message = 'Password updated successfully.';
         if($_SESSION['Student']){
             header('Location:index.php');

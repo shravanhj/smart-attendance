@@ -1,3 +1,8 @@
+<?php
+ob_start();
+session_name("___UserAuthenticated");
+session_start();
+?>
 <html>
 
     <head>
@@ -50,8 +55,6 @@
 
     <body>
         <?php
-        session_name("___UserAuthenticated");
-        session_start();
 
         if(isset($_SESSION['Admin'])){
             echo 'Admin Nav Not written yet';

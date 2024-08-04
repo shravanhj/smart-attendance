@@ -8,7 +8,6 @@
                 fingerpring_object = JSON.parse(xmlhttp.responseText);
                 if(fingerpring_object.ErrorCode == 0){
                     var fingerprint_template = fingerpring_object.TemplateBase64;
-                    console.log(fingerprint_template);
                     document.getElementById('status').innerHTML = "<b>Scan Status</b> : Scanned successfully.";
                     document.getElementById('fingerprint_template').value = fingerprint_template;
                     var form =document.getElementById('reg_form');

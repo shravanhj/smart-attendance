@@ -30,7 +30,7 @@ if(isset($_POST['login'])){
             header('Location:../changePassword.php');
         }
         else{
-            header('Location:staffDashboard.php');
+            header('Location:sessionDetails.php');
         }
     }
     else{

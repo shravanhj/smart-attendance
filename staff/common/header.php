@@ -1,3 +1,8 @@
+<?php
+ob_start();
+session_name("___UserAuthenticated");
+session_start();
+?>
 <html>
 
     <head>
@@ -46,14 +51,11 @@
 
     <body>
         <?php
-        session_name("___UserAuthenticated");
-        session_start();
-
         if(isset($_SESSION['Admin'])){
             echo 'Admin Nav Not written yet';
         }
         else if(isset($_SESSION['Staff'])){
-            if(basename($_SERVER['PHP_SELF'])  == 'registration.php' || basename($_SERVER['PHP_SELF'])  == 'login.php'){
+            if(basename($_SERVER['PHP_SELF'])  == 'registration.php' || basename($_SERVER['PHP_SELF'])  == 'login.php' || basename($_SERVER['PHP_SELF'])  == 'captureAttendance.php'){
             }
             else{
                 ?>
@@ -115,7 +117,7 @@
             header("Location:../index.php");
         }
         else{
-            if(basename($_SERVER['PHP_SELF'])  == 'registration.php' || basename($_SERVER['PHP_SELF'])  == 'login.php'){
+            if(basename($_SERVER['PHP_SELF'])  == 'registration.php' || basename($_SERVER['PHP_SELF'])  == 'login.php' || basename($_SERVER['PHP_SELF'])  == 'captureAttendance.php'){
             }
             else{
                 ?>
