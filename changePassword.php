@@ -9,9 +9,15 @@ if(isset($_SESSION['Student']) ){
     $access = 'reg_no';
     $user = $logged_in_data['reg_no'];
 }
-else if(isset($_SESSION['Staff'])){
+else if(isset($_SESSION['Staff']) || isset($_SESSION['Admin'])){
+    if(isset($_SESSION['Staff'])){
+        $logged_in_staff = $_SESSION['Staff'];
+    }
+    else{
+        $logged_in_staff = $_SESSION['Admin'];
+    }
     $select_logged_in_user = $connection->prepare("SELECT * FROM `staff_admin` WHERE unique_id = ?");
-    $select_logged_in_user->execute([$_SESSION['Staff']]);
+    $select_logged_in_user->execute([$logged_in_staff]);
     $logged_in_data = $select_logged_in_user->fetch(PDO::FETCH_ASSOC);
     $table = 'staff_admin';
     $access = 'unique_id';

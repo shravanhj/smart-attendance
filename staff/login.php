@@ -21,7 +21,12 @@ if(isset($_POST['login'])){
 
     if($check_staff->rowCount() > 0){
         $staff_data = $check_staff->fetch(PDO::FETCH_ASSOC);
-        $_SESSION['Staff'] = $staff_data['unique_id'];
+        if($staff_data['role'] == 'Admin'){
+            $_SESSION['Admin'] = $staff_data['unique_id'];
+        }
+        else{
+            $_SESSION['Staff'] = $staff_data['unique_id'];
+        }
 
         if($staff_data['password'] == $staff_data['temp_password']){
             $delete_password = $connection->prepare("UPDATE `staff_admin` SET password = '' WHERE unique_id = ?");

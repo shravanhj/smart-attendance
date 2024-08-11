@@ -57,7 +57,64 @@ session_start();
         <?php
 
         if(isset($_SESSION['Admin'])){
-            echo 'Admin Nav Not written yet';
+            ?>
+            <nav class="navbar navbar-expand-lg bg-white p-3 mb-2">
+                <div class="container">
+
+                    <div class="">
+                        <div class="d-flex align-items-center  pb-0">
+                            <img src="assets/images/fingerprint-scan.png" width="42px" alt="">
+                            <h3 class="fw-bold text-black mb-0">Smart<b class="bg-green ms-2 p-1 text-dark rounded">Attendance</b></h3>
+                        </div>
+                        <p class="ms-5 text-black mb-0">Admin Module</p>
+                    </div>
+                    <a class="navbar-toggler" style="border:0px; outline:none;"  type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fa fa-bars-staggered "></i>
+                    </a>
+                    <div class="collapse navbar-collapse justify-content-end mt-2" id="navbarNavDropdown">
+                        <ul class="navbar-nav">
+                            <li class="nav-item me-3">
+                                <a class="nav-link active" aria-current="page" href="index.php">Home</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link me-3 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    User Management
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" target="__blank" href="staff/registration.php">Add New Staff</a></li>
+                                    <li><a class="dropdown-item" href="registration.php">Add New Student</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="changeRole.php">Role Assignment</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link me-3 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Attendance Management
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="staff/sessionDetails.php">Start Capture Attendance</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="staff/attendanceRecords.php">View Attendance Records</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link me-3 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Profile
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="staff/staffDashboard.php">Dashboard</a></li>
+                                    <li><a class="dropdown-item" href="changePassword.php">Change Password</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="logout.php">Logout</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <a class="btn btn-sm text-white" style="background-color: #6db33f;border-color: #6db33f;border-width: 2px;border-style: solid;border-radius: 10px;box-shadow: 5px 5px 15px #6db33f;" href="https://wa.me/917406492844" target="_blank"><i class="me-1 fa-brands fa-whatsapp"></i>Help</a>
+
+                    </div>
+                </div>
+            </nav>
+            <?php
         }
         else if(isset($_SESSION['Staff'])){
             echo 'Staff nav not written yet';
@@ -72,6 +129,7 @@ session_start();
                             <img src="assets/images/fingerprint-scan.png" width="42px" alt="">
                             <h3 class="fw-bold text-black mb-0">Smart<b class="bg-green ms-2 p-1 text-dark rounded">Attendance</b></h3>
                         </div>
+                        <p class="ms-5 text-black mb-0">Admin Module</p>
                     </div>
                     <a class="navbar-toggler" style="border:0px; outline:none;"  type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                         <i class="fa fa-bars-staggered "></i>
@@ -81,16 +139,31 @@ session_start();
                             <li class="nav-item me-3">
                                 <a class="nav-link active" aria-current="page" href="index.php">Home</a>
                             </li>
-                            <li class="nav-item me-3">
-                                <a class="nav-link" href="#">Reports</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link me-3 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    User Management
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="registration.php">Add New Student</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link me-3 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Attendance Management
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="staff/sessionDetails.php">Start Capture Attendance</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="staff/attendanceRecords.php">View Attendance Records</a></li>
+                                </ul>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link me-3 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Profile
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="studentDashboard.php">Dashboard</a></li>
-                                    <li><a class="dropdown-item" href="studentDashboard.php">Update Details</a></li>
+                                    <li><a class="dropdown-item" href="staff/staffDashboard.php">Dashboard</a></li>
                                     <li><a class="dropdown-item" href="changePassword.php">Change Password</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item" href="logout.php">Logout</a></li>

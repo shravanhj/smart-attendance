@@ -2,7 +2,7 @@
 <?php include 'config/config.php'; ?>
 <?php include 'common/header.php';
 
-if(isset($_SESSION['Admin']) || isset($_SESSION['Staff']) || isset($_SESSION['Student']) ){
+if(isset($_SESSION['Student'])){
     header("Location:index.php");
     exit();
 }

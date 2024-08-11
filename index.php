@@ -3,22 +3,6 @@
 ?>
 
 
-<?php
-$query = $connection->prepare("SELECT * FROM `finger_values`");
-$query->execute();
-$rows = $query->fetchAll(PDO::FETCH_ASSOC);
-
-if($query->rowCount() > 0){
-}
-
-$jsonData = json_encode($rows);
-?>
-<script>
-    let data = <?= $jsonData; ?>;
-    console.log(data);
-</script>
-
-<?php include 'common/footer.php'; ?>
 
 <div id="carouselExampleIndicators" class="carousel slide">
   <div class="carousel-indicators">
@@ -51,3 +35,5 @@ $jsonData = json_encode($rows);
     <span class="visually-hidden">Next</span>
   </button>
 </div>
+
+<?php include 'common/footer.php'; ?>

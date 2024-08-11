@@ -2,11 +2,20 @@
 <?php include 'common/header.php';?>
 
 <?php
-if(!isset($_SESSION['Staff'])){
+if(isset($_SESSION['Staff']) || isset($_SESSION['Admin'])){
+    if(isset($_SESSION['Staff'])){
+        $logged_in_staff = $_SESSION['Staff'];
+    }
+    else{
+        $logged_in_staff = $_SESSION['Admin'];
+    }
+}
+else{
     header('Location:../index.php');
 }
+
 $select_logged_in_user = $connection->prepare("SELECT * FROM `staff_admin` WHERE unique_id = ?");
-$select_logged_in_user->execute([$_SESSION['Staff']]);
+$select_logged_in_user->execute([$logged_in_staff]);
 $logged_in_data = $select_logged_in_user->fetch(PDO::FETCH_ASSOC);
 
 if(isset($_POST['addSub'])){
@@ -16,6 +25,18 @@ if(isset($_POST['addSub'])){
     $insert_subject = $connection->prepare("INSERT INTO `subjects` (subject_name, semester, added_by) VALUES (?, ?, ?)");
     if($insert_subject->execute([$subject, $semester, $logged_in_data['staff_name']])){
         $message = $subject.' '. 'Subject Added Successfully for Semester'.' '. $semester;
+    }
+}
+if(isset($_POST['start_session'])){
+    $subject_id = strtoupper($_POST['session_subject']);
+    $capturing_by = $_POST['logged_user'];
+    $batch = $_POST['batch'];
+    $status = 'Capturing';
+
+    $insert_into_ongoing = $connection->prepare("INSERT INTO `ongoing_attendance` (subject, capturing_by, status, batch) VALUES (?, ?, ?, ?)");
+    $insert_into_ongoing->execute([$subject_id, $capturing_by, $status, $batch]);
+    if($insert_into_ongoing){
+        header('Location:captureAttendance.php');
     }
 }
 ?>
@@ -100,7 +121,7 @@ if(isset($_POST['addSub'])){
                         </select>
                     </div>
                 </form>
-                <form method="post" action="captureAttendance.php">
+                <form method="post" action="">
                     <div class="col-md mb-3">
                         <label>Select Subject</label>
                         <select name="session_subject"class="form-select form-select-sm p-1 shadow-sm bg-white rounded" required>
@@ -116,6 +137,19 @@ if(isset($_POST['addSub'])){
                             ?>
                         </select>
                     </div>
+                    <div class="col-md mb-3">
+                        <label>Select Batch</label>
+                        <select name="batch" class="form-select form-select-sm p-1 shadow-sm bg-white rounded" required>
+                            <option value="0">Select Batch</option>
+                            <option value="1">Batch 1(Day 1)</option>
+                            <option value="2">Batch 2(Day 1)</option>
+                            <option value="3">Batch 3(Day 2)</option>
+                            <option value="4">Batch 4(Day 2)</option>
+                            <option value="5">Batch 5(Day 3)</option>
+                            <option value="6">Batch 6(Day 3)</option>
+                        </select>
+                    </div>
+                                     
                     <input type="hidden" name="logged_user" value="<?= $logged_in_data['staff_name']; ?>">
                     <input  id="addBtn" type="submit" name="start_session" class="btn mb-2 btn-sm btn-warning" value="Start Session">
                 </form>
