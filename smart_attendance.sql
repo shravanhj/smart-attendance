@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 25, 2024 at 04:12 AM
+-- Generation Time: Aug 11, 2024 at 05:14 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -24,13 +24,44 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `attendance_history`
+--
+
+CREATE TABLE `attendance_history` (
+  `attendance_id` int(7) NOT NULL,
+  `subject` varchar(25) NOT NULL,
+  `batch` int(2) NOT NULL,
+  `captured_by` varchar(20) NOT NULL,
+  `semester` int(3) NOT NULL,
+  `student_reg_no` varchar(15) NOT NULL,
+  `date` date DEFAULT NULL,
+  `status` varchar(15) NOT NULL DEFAULT 'Not Confirmed'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ongoing_attendance`
+--
+
+CREATE TABLE `ongoing_attendance` (
+  `id` int(11) NOT NULL,
+  `subject` varchar(30) NOT NULL,
+  `capturing_by` varchar(30) NOT NULL,
+  `status` varchar(10) NOT NULL,
+  `batch` int(2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `staff_admin`
 --
 
 CREATE TABLE `staff_admin` (
   `unique_id` int(5) NOT NULL,
   `role` varchar(6) NOT NULL,
-  `name` varchar(30) NOT NULL,
+  `staff_name` varchar(30) NOT NULL,
   `email` varchar(30) NOT NULL,
   `mobile_no` bigint(15) DEFAULT NULL,
   `password` varchar(200) DEFAULT NULL,
@@ -38,14 +69,6 @@ CREATE TABLE `staff_admin` (
   `fingerprint_template` varchar(500) NOT NULL,
   `account_created_on` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `staff_admin`
---
-
-INSERT INTO `staff_admin` (`unique_id`, `role`, `name`, `email`, `mobile_no`, `password`, `temp_password`, `fingerprint_template`, `account_created_on`) VALUES
-(1, 'STAFF', '', 'shravna@', NULL, '123', '0', 'Rk1SACAyMAAAAADAAAABLAGQAMUAxQEAAABTG4BDABUAAIBQADSEAICVADneAEBbADv1AECEAD1pAIAiAEoeAEBtAFDoAIBRAFeEAECzAFtfAIBXAG/0AIBvAHNnAIBeAIF9AIA0AIS5AEBgAJXhAEA9AJzAAEBkAKHaAIC9AKJeAEBhALjWAEBiAMdRAEDHAM9oAIA+ANfGAICfAN5oAEBHAOHWAEC1AQFpAECFAQVxAECuAQ51AIB9ARZ1AAAA', '2024-07-24 07:15:08'),
-(2, 'Staff', '', 'sh@', NULL, '', 'anteOs', 'Rk1SACAyMAAAAAECAAABLAGQAMUAxQEAAABOJkARABbeAIA6ABZbAEB8AB7KAEAXACXgAIAUACzRAEANAC/KAEBjADBQAEBHAD1aAICdAEdHAIAoAFHQAEBMAFPUAIAJAFjPAECdAFzKAEBHAF/QAIB/AGJQAIC8AGvMAIBdAG1TAIAfAG7PAEBDAHhQAIAIAHzFAIBsAJPKAEC3AJdQAIAOAJ24AEDJALLQAEEHALTRAEA+ALe4AEBJAL69AEERANTNAEASANSuAECMAOO7AECoAObAAEEbAO1RAIDvAPPGAEDgAPPDAEESAPXQAICMAP48AIC/AQq8AECAARuxAAAA', '2024-07-24 07:49:18');
 
 -- --------------------------------------------------------
 
@@ -67,19 +90,34 @@ CREATE TABLE `students` (
   `account_created_on` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `students`
+-- Table structure for table `subjects`
 --
 
-INSERT INTO `students` (`unique_id`, `reg_no`, `name`, `gender`, `email`, `mobile_no`, `current_semester`, `fingerprint_template`, `password`, `temp_password`, `account_created_on`) VALUES
-(5, 'U15', 'Anil', 'male', 'shravanhj@gmail.com', 7406492844, 0, 'Rk1SACAyMAAAAAD2AAABLAGQAMUAxQEAAABMJEBzABgDAIB+ACCCAEBoADyRAIB2AEcDAEAPAE0kAEBHAGEeAICCAGJ8AECMAGn1AEC4AGxsAIBQAHQcAECdAHzoAICBAIB9AEAJAIqsAICCAJXxAICdAJxlAECIAKJ9AIBeAKezAECCALe1AECGALjnAIBiALu7AECFALzGAECLAMHZAECHANfWAEBVAOfAAECJAOhRAIBjAPPDAEBsAP7aAIDFAQFnAIBrAQvFAEAjAQ2kAEB0ARuJAEBmAR4JAECqASJuAIBUASQiAEA+ASclAICeAS9xAAAA', '123', '123456', '2024-07-23 08:48:54'),
-(6, 'SDSS', 'shravan HJ', 'male', 'shravanhj@gmail.co', 7406492844, 0, 'Rk1SACAyMAAAAADeAAABLAGQAMUAxQEAAAA+IECWAAgRAIDgADN4AEDeADr0AECEADsuAEBEAD44AEDUAEOAAICeAGC9AEBZAGG9AICnAGjDAIBmAHI8AIDoAHKKAECmAHpAAEDwAHvnAIDkAIDJAIDGAITFAEDuAIbeAEDOAIhDAIDrAI3TAIBdAJm8AICyAJvDAIDVALDUAEEQAMLxAIDMAMXQAIC2AMrDAIDDANzHAED4AOFiAEDtAOhnAEDPAO7DAED/APl1AID0AP97AEDNAQQ1AEDRASchAAAA', '1234567', NULL, '2024-07-23 07:59:26'),
-(7, '', NULL, NULL, '', NULL, NULL, 'Rk1SACAyMAAAAAFEAAABLAGQAMUAxQEAAABFMUCcAFTuAIC9AGhsAEA2AHDGAECGAHbsAIAoAHtKAIB4AIrhAICyAJPbAEBtAJXZAECNAJ7aAIApAKTJAICRALDPAEAnALXKAICoALbPAIBQALjHAEARAMDQAIAyAMBOAEAYAMdKAEAPAMlKAECTAMzHAECAAM7AAEAhANrKAIA+ANvHAEBPAN5KAEBaAN41AIAQAORNAIAtAOVMAECkAOvHAECMAOy4AICfAQC8AEA+AQHQAEB/AQQ4AEDKAQjKAECmAQnHAIBZAQ5NAEB5ARLHAICxARXFAICXARg/AEBUARpNAECeARrAAEB3ASFHAECjASFDAECCASJKAECwASRAAECRASW7AICJASVAAICqASjDAIBeASvFAEBMATBKAECjATK9AAAA', 'rO9OUx', 'rO9OUx', '2024-07-24 03:20:32'),
-(8, 'U26', NULL, NULL, 'student@gmail.com', NULL, NULL, 'Rk1SACAyMAAAAADwAAABLAGQAMUAxQEAAABEI0CWABt9AEC2ACOHAIBuACaRAECbAC+RAECQADsUAEDhAEqAAEC1AFkKAEDgAGEAAIBFAHAcAIDHAHOHAIBJAHsUAECwAIwHAIB1AJAUAIDaAJR/AEDyAJz4AIDWAKuAAEAfAK4hAIBfALUUAEClALwHAICGAMSNAEDzAM97AEBvANERAIDfAQ/xAIA+ARMfAEB8ARoUAEB6ASkTAECpATr+AEDVAUJzAEA+AUOiAECFAV8QAEB6AXEQAICJAXMEAEDSAXPjAIBoAXUcAIDIAXfoAAAA', 'g4hCix', 'g4hCix', '2024-07-24 03:22:03');
+CREATE TABLE `subjects` (
+  `subject_id` int(3) NOT NULL,
+  `subject_name` varchar(50) NOT NULL,
+  `semester` varchar(4) NOT NULL,
+  `added_by` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `attendance_history`
+--
+ALTER TABLE `attendance_history`
+  ADD PRIMARY KEY (`attendance_id`);
+
+--
+-- Indexes for table `ongoing_attendance`
+--
+ALTER TABLE `ongoing_attendance`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `staff_admin`
@@ -94,20 +132,44 @@ ALTER TABLE `students`
   ADD PRIMARY KEY (`unique_id`);
 
 --
+-- Indexes for table `subjects`
+--
+ALTER TABLE `subjects`
+  ADD PRIMARY KEY (`subject_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `attendance_history`
+--
+ALTER TABLE `attendance_history`
+  MODIFY `attendance_id` int(7) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+
+--
+-- AUTO_INCREMENT for table `ongoing_attendance`
+--
+ALTER TABLE `ongoing_attendance`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `staff_admin`
 --
 ALTER TABLE `staff_admin`
-  MODIFY `unique_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `unique_id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `unique_id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `unique_id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+
+--
+-- AUTO_INCREMENT for table `subjects`
+--
+ALTER TABLE `subjects`
+  MODIFY `subject_id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
