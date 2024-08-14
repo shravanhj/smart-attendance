@@ -1,0 +1,133 @@
+DFD Diagrams
+
+graph TD
+    %% Define the entities
+    A[Students]
+    B[StaffAdmin]
+
+    %% Define the processes
+    P1[Capture Attendance]
+    P2[Manage Ongoing Attendance]
+    P3[Manage Staff]
+    P4[Manage Students]
+    P5[Manage Subjects]
+
+    %% Define the data stores
+    D1[(attendance_history)]
+    D2[(ongoing_attendance)]
+    D3[(staff_admin)]
+    D4[(students)]
+    D5[(subjects)]
+
+    %% Define the data flows
+    A -->|Sends attendance| P1
+    P1 -->|Stores attendance data| D1
+    B -->|Requests ongoing attendance data| P2
+    P2 -->|Stores ongoing attendance data| D2
+    B -->|Manages staff info| P3
+    P3 -->|Stores staff data| D3
+    A -->|Sends student details| P4
+    P4 -->|Stores student data| D4
+    B -->|Adds subjects| P5
+    P5 -->|Stores subject data| D5
+
+    %% Additional relationships
+    D1 -->|Queries attendance data| P1
+    D2 -->|Queries ongoing data| P2
+    D3 -->|Queries staff data| P3
+    D4 -->|Queries student data| P4
+    D5 -->|Queries subject data| P5
+
+
+
+
+    UML Diagrams
+
+    classDiagram
+    class AttendanceHistory {
+        int attendance_id
+        varchar subject
+        int batch
+        varchar captured_by
+        int semester
+        varchar student_reg_no
+        date date
+        varchar status
+    }
+    class OngoingAttendance {
+        int id
+        varchar subject
+        varchar capturing_by
+        varchar status
+        int batch
+    }
+    class StaffAdmin {
+        int unique_id
+        varchar role
+        varchar staff_name
+        varchar email
+        bigint mobile_no
+        varchar password
+        varchar temp_password
+        varchar fingerprint_template
+        timestamp account_created_on
+    }
+    class Students {
+        int unique_id
+        varchar reg_no
+        varchar name
+        varchar gender
+        varchar email
+        bigint mobile_no
+        int current_semester
+        longtext fingerprint_template
+        varchar password
+        varchar temp_password
+        timestamp account_created_on
+    }
+    class Subjects {
+        int subject_id
+        varchar subject_name
+        varchar semester
+        varchar added_by
+    }
+
+    AttendanceHistory "1" -- "*" StaffAdmin : "captured_by"
+    AttendanceHistory "1" -- "*" Students : "student_reg_no"
+    OngoingAttendance "1" -- "*" StaffAdmin : "capturing_by"
+    AttendanceHistory "*" -- "1" Subjects : "subject"
+    OngoingAttendance "*" -- "1" Subjects : "subject"
+
+
+
+    System Design
+    Designing a system involves creating a high-level architecture and detailing the components, their interactions, the flow of data, and the overall structure necessary to fulfill system requirements. Here's a structured approach to system design with a combination of diagrams:
+
+1. Context Diagram
+A Context Diagram provides a high-level view of the system and its interactions with external entities.
+
+2. Use Case Diagram
+A Use Case Diagram illustrates the primary actions of users (actors) and the major functionalities (use cases) of the system.
+
+3. Sequence Diagram
+A Sequence Diagram shows how objects interact in a particular scenario of a use case through a sequence of messages.
+
+4. Class Diagram
+A Class Diagram provides a detailed view of the system's structure through its classes, attributes, methods, and relationships.
+
+5. Deployment Diagram
+A Deployment Diagram illustrates the physical deployment of artifacts on nodes.
+
+Designing the Attendance System
+1. Context Diagram
+2. Use Case Diagram
+3. Sequence Diagram for Capturing Attendance
+4. Class Diagram
+5. Deployment Diagram
+Explanation
+Context Diagram: Simplifies the system interaction with external entities (students and staff).
+Use Case Diagram: Shows high-level functionalities such as capturing attendance, viewing it, managing staff, students, and subjects.
+Sequence Diagram: Captures the detailed interaction for a particular use case ("Capture Attendance").
+Class Diagram: Provides a detailed representation of database tables and their relationships in the system.
+Deployment Diagram: Visualizes the deployment architecture, detailing where different parts of the application (web app, application server, database) are hosted.
+This set of UML diagrams should give you a comprehensive understanding of the overall system architecture and its components. You can expand each of these diagrams for more detailed information as needed.

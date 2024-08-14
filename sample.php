@@ -5,7 +5,7 @@
     $capturing_by = 'shravan';
     $batch = 2;
 
-    $select_subject = $connection->prepare("SELECT * FROM `subjects` WHERE subject_name = ?");
+    $select_subject = $connection->prepare("SELECT * FROM `subjects` WHERE subject_name = ? LIMIT 1");
     $select_subject->execute([$subject_id]);
     $select_sub = $select_subject->fetch(PDO::FETCH_ASSOC);
     $session_semester = $select_sub['semester'];

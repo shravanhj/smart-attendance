@@ -129,7 +129,7 @@ session_start();
                             <img src="assets/images/fingerprint-scan.png" width="42px" alt="">
                             <h3 class="fw-bold text-black mb-0">Smart<b class="bg-green ms-2 p-1 text-dark rounded">Attendance</b></h3>
                         </div>
-                        <p class="ms-5 text-black mb-0">Admin Module</p>
+                        <p class="ms-5 text-black mb-0">Student Module</p>
                     </div>
                     <a class="navbar-toggler" style="border:0px; outline:none;"  type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                         <i class="fa fa-bars-staggered "></i>
@@ -139,31 +139,15 @@ session_start();
                             <li class="nav-item me-3">
                                 <a class="nav-link active" aria-current="page" href="index.php">Home</a>
                             </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link me-3 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    User Management
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="registration.php">Add New Student</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                </ul>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link me-3 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Attendance Management
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="staff/sessionDetails.php">Start Capture Attendance</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="staff/attendanceRecords.php">View Attendance Records</a></li>
-                                </ul>
+                            <li class="nav-item me-3">
+                                <a class="nav-link active" aria-current="page" href="viewRecord.php">View My Attendance Records</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link me-3 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Profile
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="staff/staffDashboard.php">Dashboard</a></li>
+                                    <li><a class="dropdown-item" href="studentDashboard.php">Dashboard</a></li>
                                     <li><a class="dropdown-item" href="changePassword.php">Change Password</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item" href="logout.php">Logout</a></li>

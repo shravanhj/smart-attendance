@@ -33,6 +33,9 @@ $batch = $ongoing_attendance_data['batch'];
 
     $select_from_students_temp = $connection->prepare("SELECT * FROM `students` WHERE current_semester = ? LIMIT 1");
     $select_from_students_temp->execute([$session_semester]);
+    if($select_from_students_temp->rowCount() <=0){
+        echo "<script type='text/javascript'>alert('No Students present or registered for this semester yet.,,');window.location.href='sessionDetails.php';</script>";
+    }
 
     $fetched_from_students = $select_from_students_temp->fetch(PDO::FETCH_ASSOC);
     $university_reg_no_temp = mb_strimwidth($fetched_from_students['reg_no'], 0, 9, '');
@@ -56,7 +59,7 @@ $batch = $ongoing_attendance_data['batch'];
         }
     }
     if(isset($_POST['stop'])){
-        $delete_ongoing = $connection->prepare("DELETE FROM `ongoing_attendance` WHERE capturing_by = ? AND status = 'Capturing'");
+        $delete_ongoing = $connection->prepare("UPDATE`ongoing_attendance` WHERE capturing_by = ? AND status = 'Captured' WHERE status = 'Capturing'");
         $delete_ongoing->execute([$logged_in_data['staff_name']]);
         $delete_history = $connection->prepare("UPDATE `attendance_history` SET status = 'Confirmed' WHERE captured_by = ? AND status = 'Not Confirmed'");
         $delete_history->execute([$logged_in_data['staff_name']]);
