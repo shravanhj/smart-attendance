@@ -3,6 +3,7 @@ ob_start();
 session_name("___UserAuthenticated");
 session_start();
 ?>
+<?php include '../config/config.php'; ?>
 <html>
 
     <head>
@@ -79,7 +80,6 @@ session_start();
                                     <li><a class="dropdown-item" target="__blank" href="registration.php">Add New Staff</a></li>
                                     <li><a class="dropdown-item" href="../registration.php">Add New Student</a></li>
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="logout.php">Role Assignment</a></li>
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
@@ -109,9 +109,14 @@ session_start();
                     </div>
                 </div>
             </nav>
+            <p class="text-end"><?= $logged_in_data['role'];?></p>
             <?php
         }
         else if(isset($_SESSION['Staff'])){
+            $logged_in_staff = $_SESSION['Staff'];
+            $select_logged_in_user = $connection->prepare("SELECT * FROM `staff_admin` WHERE unique_id = ?");
+            $select_logged_in_user->execute([$logged_in_staff]);
+            $logged_in_data = $select_logged_in_user->fetch(PDO::FETCH_ASSOC);
             if(basename($_SERVER['PHP_SELF'])  == 'registration.php' || basename($_SERVER['PHP_SELF'])  == 'login.php' || basename($_SERVER['PHP_SELF'])  == 'captureAttendance.php'){
             }
             else{
@@ -143,8 +148,8 @@ session_start();
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" target="__blank" href="registration.php">Add new student</a></li>
-                                    <li><a class="dropdown-item" href="studentDashboard.php">View Regd. Students</a></li>
-                                    <li><a class="dropdown-item" href="changePassword.php">View Reports</a></li>
+                                    <li><a class="dropdown-item" href="staffDashboard.php">View Regd. Students</a></li>
+                                    <li><a class="dropdown-item" href="attendanceRecords.php">View Reports</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item" href="logout.php">My Attendances</a></li>
                                 </ul>
@@ -155,8 +160,7 @@ session_start();
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="studentDashboard.php">Dashboard</a></li>
-                                    <li><a class="dropdown-item" href="studentDashboard.php">Update Details</a></li>
-                                    <li><a class="dropdown-item" href="changePassword.php">Change Password</a></li>
+                                    <li><a class="dropdown-item" href="../changePassword.php">Change Password</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item" href="../logout.php">Logout</a></li>
                                 </ul>
@@ -167,6 +171,8 @@ session_start();
                     </div>
                 </div>
             </nav>
+            <p class="text-end"><?= $logged_in_data['staff_name'];?> (<?= $logged_in_data['role'];?>).</p>
+
             <?php
         }
     }

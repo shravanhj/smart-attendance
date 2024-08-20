@@ -49,7 +49,26 @@ if(isset($_POST['capture'])){
                 Team Smart Attendance.
                 </p>';
 
+                
+            $mail = new PHPMailer(true);
 
+            try{
+                $mail->isSMTP();
+                $mail->Host = 'smtp.gmail.com';
+                $mail->SMTPAuth = true;
+                $mail->Username =  'iamwilliamsmith07@gmail.com';
+                $mail->Password = 'bplcpnotbaavazdy';
+                $mail->SMTPSecure = 'ssl';
+                $mail->Port = 465;
+                
+                $mail->setFrom('iamwilliamsmith07@gmail.com');
+                $mail->addAddress($email);
+        
+                $mail->isHTML(true);
+                $mail->Subject = 'Welcome to Smart Attendance System';
+                $mail->Body = $email_message;
+        
+                $mail->send();
                 $insert_student = $connection->prepare("INSERT INTO `students`(reg_no, email, fingerprint_template, password, temp_password) VALUES (?, ?, ?, ?, ?)");
                 $insert_student->execute([$reg_no, $email, $fingerprint_template, $randomString, $randomString]);
                 if($insert_student){
@@ -62,9 +81,13 @@ if(isset($_POST['capture'])){
                     <b>Note : </b>Please scan and register yourself again.';
                 }
             }
+    
+            catch(Exception $e){
+                $message= $e->getMessage();
+            }
         }
-
     }
+}
     ?>
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">

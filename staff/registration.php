@@ -50,17 +50,40 @@ if(isset($_POST['capture'])){
                 Team Smart Attendance.
                 </p>';
 
+                $mail = new PHPMailer(true);
 
-                $insert_student = $connection->prepare("INSERT INTO `students`(reg_no, email, fingerprint_template, password, temp_password) VALUES (?, ?, ?, ?, ?)");
-                $insert_student->execute([$reg_no, $email, $fingerprint_template, $randomString, $randomString]);
-                if($insert_student){
-                    $message = 'Password has been sent to your e-Mail id. Please login and update your academic details.<br><br>
-                    <b>Note : </b>Please connect to the same Wi-Fi network and access the update page after login.';
-
+                try{
+                    $mail->isSMTP();
+                    $mail->Host = 'smtp.gmail.com';
+                    $mail->SMTPAuth = true;
+                    $mail->Username =  'iamwilliamsmith07@gmail.com';
+                    $mail->Password = 'bplcpnotbaavazdy';
+                    $mail->SMTPSecure = 'ssl';
+                    $mail->Port = 465;
+                    
+                    $mail->setFrom('iamwilliamsmith07@gmail.com');
+                    $mail->addAddress($email);
+            
+                    $mail->isHTML(true);
+                    $mail->Subject = 'Student, Welcome to Smart Attendance System';
+                    $mail->Body = $email_message;
+            
+                    $mail->send();
+                    $insert_student = $connection->prepare("INSERT INTO `students`(reg_no, email, fingerprint_template, password, temp_password) VALUES (?, ?, ?, ?, ?)");
+                    $insert_student->execute([$reg_no, $email, $fingerprint_template, $randomString, $randomString]);
+                    if($insert_student){
+                        $message = 'Password has been sent to your e-Mail id. Please login and update your academic details.<br><br>
+                        <b>Note : </b>Please connect to the same Wi-Fi network and access the update page after login.';
+    
+                    }
+                    else{
+                        $message = 'Password has been sent through email but failed to insert it into database.<br><br>
+                        <b>Note : </b>Please scan and register yourself again.';
+                    }
                 }
-                else{
-                    $message = 'Password has been sent through email but failed to insert it into database.<br><br>
-                    <b>Note : </b>Please scan and register yourself again.';
+        
+                catch(Exception $e){
+                    $message= $e->getMessage();
                 }
             }
         }
@@ -177,24 +200,49 @@ if(isset($_POST['capture'])){
             }
             $email_message = '
                 <h3>Smart Attendance</h3>
-                <h5">Student Registration</h5>
+                <h5">'.$role.' Registration</h5>
                 <p class="fs-3">
-                Dear student,<br>
-                Your password is : <b>'.$randomString.'</b> use thsi password to login.<br><br>
+                Dear mart Attendance</h3>
+                <h5">'.$role.',<br>
+                Your password is : <b class="fw-bold">'.$randomString.'</b> use thsi password to login.<br><br>
                 Team Smart Attendance.
                 </p>';
 
+                $mail = new PHPMailer(true);
 
-                $insert_staff = $connection->prepare("INSERT INTO `staff_admin`(role, staff_name, email, password, temp_password, fingerprint_template) VALUES (?, ?, ?, ?, ?, ?)");
-                $insert_staff->execute([$role, $name, $email, $randomString, $randomString, $fingerprint_template]);
-                if($insert_staff){
-                    $message = 'Password has been sent to your e-Mail id. Please login and update details.<br><br>
-                    <b>Note : </b>Logging in from other device than this? Please connect to the same Wi-Fi network and access the update page after login.';
+                try{
+                    $mail->isSMTP();
+                    $mail->Host = 'smtp.gmail.com';
+                    $mail->SMTPAuth = true;
+                    $mail->Username =  'iamwilliamsmith07@gmail.com';
+                    $mail->Password = 'bplcpnotbaavazdy';
+                    $mail->SMTPSecure = 'ssl';
+                    $mail->Port = 465;
+                    
+                    $mail->setFrom('iamwilliamsmith07@gmail.com');
+                    $mail->addAddress($email);
+            
+                    $mail->isHTML(true);
+                    $mail->Subject = ''.$role.', Welcome to Smart Attendance System';
+                    $mail->Body = $email_message;
+            
+                    $mail->send();
 
+                    $insert_staff = $connection->prepare("INSERT INTO `staff_admin`(role, staff_name, email, password, temp_password, fingerprint_template) VALUES (?, ?, ?, ?, ?, ?)");
+                    $insert_staff->execute([$role, $name, $email, $randomString, $randomString, $fingerprint_template]);
+                    if($insert_staff){
+                        $message = 'Password has been sent to your e-Mail id. Please login and update details.<br><br>
+                        <b>Note : </b>Logging in from other device than this? Please connect to the same Wi-Fi network and access the update page after login.';
+    
+                    }
+                    else{
+                        $message = 'Password has been sent through email but failed to insert it into database.<br><br>
+                        <b>Note : </b>Please scan and register yourself again.';
+                    }
                 }
-                else{
-                    $message = 'Password has been sent through email but failed to insert it into database.<br><br>
-                    <b>Note : </b>Please scan and register yourself again.';
+        
+                catch(Exception $e){
+                    $message= $e->getMessage();
                 }
             }
         }
@@ -278,6 +326,12 @@ if(isset($_POST['capture'])){
             <div class="row">
                 <div class="col-sm-12">
                     <a onclick="captureFP()" class="btn mb-3 bg-green  col-sm-12 text-black" >Scan now</a>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <p class="p-1 m-0"><b>Registered?</b> : <a href="login.php" class="text-primary">Login Now</a></p>
                 </div>
             </div>
 
